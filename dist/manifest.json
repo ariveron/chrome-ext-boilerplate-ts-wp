@@ -1,0 +1,16 @@
+{
+  "name": "Discovery",
+  "version": "0.0",
+  "description": "Chrome extension testing!",
+  "manifest_version": 2,
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*/*"],
+      "js": ["content.js"]
+    }
+  ]
+}
