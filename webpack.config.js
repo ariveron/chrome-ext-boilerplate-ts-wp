@@ -18,7 +18,7 @@ const config = {
 
 const backgroundConfig = Object.assign({}, config, {
   name: 'background',
-  entry: './src/background.ts',
+  entry: './src/background/background.ts',
   output: {
     filename: 'background.js',
     path: path.resolve(__dirname, 'dist')
@@ -27,7 +27,7 @@ const backgroundConfig = Object.assign({}, config, {
 
 const contentConfig = Object.assign({}, config, {
   name: 'content',
-  entry: './src/content.ts',
+  entry: './src/content/content.ts',
   output: {
     filename: 'content.js',
     path: path.resolve(__dirname, 'dist')
