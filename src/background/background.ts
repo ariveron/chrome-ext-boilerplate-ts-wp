@@ -1,26 +1,8 @@
-import { Channel } from '../channel';
+import { BPort } from '../b-port';
 
-const i: number = 5;
-const j: string = 'hello';
-
-console.log(`${j} ${i}`);
-
-// chrome.runtime.onConnect.addListener(function(port: chrome.runtime.Port) {
-//   if (port.name !== 'dataServices') return;
-
-//   port.onMessage.addListener(function(msg: any) {
-//     if (msg.channel === 'update') {
-//       console.log(msg.message);
-//     } else {
-//       console.log(msg.channel);
-//     }
-//   });
-// });
-
-const xChannel = new Channel<string>('data');
-xChannel.subscribe(function(event: string) {
-  console.log(event);
-})
-
-const yChannel = new Channel<string>('test');
-yChannel.publish('pub-sub to content works!!!');
+const bPort = new BPort();
+bPort.addListener((message: any, port: chrome.runtime.Port) => {
+  console.log(`background - message: ${message}`);
+  console.log(`background - port tab id: ${port.sender.tab.id}`);
+  bPort.sendMessage('this is a message sent from the background page');
+});
