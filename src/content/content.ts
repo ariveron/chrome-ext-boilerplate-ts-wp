@@ -1,8 +1,9 @@
-import { CPort } from '../c-port';
+import { Port } from '../Port';
 
-const port = new CPort();
-port.addListener((message: any, port: chrome.runtime.Port) => {
-  console.log(`content - message: ${message}`);
-  console.log(`content - port: ${port.name}`);
+const port = new Port();
+
+port.addListener((message, port) => {
+  console.log(message);
 });
-port.sendMessage('this is a message sent from the content page');
+
+port.postMessage('hello');

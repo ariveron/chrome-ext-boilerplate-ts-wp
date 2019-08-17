@@ -1,3 +1,1 @@
-export const config = {
-  port: 'sfx'
-};
+export const config = {};
