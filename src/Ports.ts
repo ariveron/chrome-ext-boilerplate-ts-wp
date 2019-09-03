@@ -13,7 +13,6 @@ export class Ports {
         const i = this.ports.findIndex(storedPort => storedPort === port);
         if (i === -1) return;
         this.ports.splice(i, 1);
-        console.log(`${port.sender.tab.id}: disconnected`);
       });
 
       this.listeners.forEach(listener => port.onMessage.addListener(listener));
@@ -38,6 +37,7 @@ export class Ports {
     this.listeners.splice(i, 1);
   }
 
+  // todo: rename to broadcast
   public postMessage(message: any): boolean {
     let hasNoErrors = true;
     this.ports.forEach(port => {
@@ -50,4 +50,6 @@ export class Ports {
     });
     return hasNoErrors;
   }
+
+  // todo: create postMessage(tabid: number, message: any)
 }

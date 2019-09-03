@@ -1,33 +1,49 @@
-export class Channel<T> {
-  constructor() {
+import { IPageLink } from './IPageLink.interface';
+import { ChannelMessage } from './ChannelMessage';
 
+export class Channel<T> {
+  private pageLink: IPageLink;
+  private name: string;
+  private subscribers: ((message: T) => void)[];
+
+  constructor(pageLink: IPageLink, name: string) {
+    this.pageLink = pageLink;
+    this.name = name;
+    this.subscribers = [];
+    this.pageLink.addListener(this.pageLinkListener);
   }
 
-}
+  public publish = (message: T): void => {
+    const channelMessage = new ChannelMessage<T>(this.name, message);
+    this.pageLink.broadcast(channelMessage);
+  };
 
-class SChannel extends Channel<string> {
-  
-}
+  public subscribe = (
+    subscriber: (message: T) => void
+  ): ((message: T) => void) => {
+    this.subscribers.push(subscriber);
+    return subscriber;
+  };
 
-const av: any = {};
-av.Env = {
-    isChromeExt: function(){
-        return !!(window['chrome'] && window['chrome']['extension'])
-    },
-    getContext: function(){
-        var loc = window.location.href;
-        if(!!(window['chrome'] && window['chrome']['extension'])){
-            if(/^chrome/.test(loc)){
-                if(window == chrome.extension.getBackgroundPage()){
-                    return 'background';
-                }else{
-                    return 'extension';
-                }
-            }else if( /^https?/.test(loc) ){
-                return 'content';
-            }
-        }else{
-            return window.location.protocol.replace(':','');
-        }
+  public unsubscribe = (subscriberToRemove: (message: T) => void): void => {
+    const index = this.subscribers.findIndex(
+      subscriber => subscriber === subscriberToRemove
+    );
+    if (index !== -1) this.subscribers.splice(index, 1);
+  };
+
+  private pageLinkListener = (
+    channelMessage: ChannelMessage<T>,
+    port: chrome.runtime.Port
+  ): void => {
+    if (channelMessage.channel === this.name) {
+      this.subscribers.forEach(subscriber => {
+        subscriber(channelMessage.message);
+      });
     }
-};
+  };
+
+  private onDestroy = () => {
+    this.pageLink.removeListener(this.pageLinkListener);
+  };
+}
