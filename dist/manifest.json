@@ -1,16 +1,21 @@
 {
-  "name": "Discovery",
+  "name": "SFX",
   "version": "0.0",
-  "description": "Chrome extension testing!",
+  "description": "SFX",
+  "permissions": ["tabs", "storage"],
   "manifest_version": 2,
   "background": {
     "scripts": ["background.js"],
-    "persistent": false
+    "persistent": true
   },
   "content_scripts": [
     {
-      "matches": ["https://*/*"],
+      "matches": ["https://osisoft.lightning.force.com/*"],
       "js": ["content.js"]
     }
-  ]
+  ],
+  "browser_action": {
+    "default_popup": "popup.html"
+  },
+  "options_page": "options.html"
 }
