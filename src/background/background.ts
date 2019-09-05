@@ -11,7 +11,7 @@ StorageService.updateFromStorage<UserOptions>(
   onUpdateFromStorage
 );
 
-function onUpdateFromStorage(userOptions: UserOptions) {
+function onUpdateFromStorage(userOptions: UserOptions): void {
   state.userOptions = userOptions;
   PubSub.emit(EventNames.onUserOptionsUpdate, userOptions);
 
@@ -21,19 +21,19 @@ function onUpdateFromStorage(userOptions: UserOptions) {
   console.log(state.userOptions);
 }
 
-function init() {
+function init(): void {
   // TODO
 }
 
 PubSub.subscribe(EventNames.onUserOptionsUpdate, onUserOptionsUpdate);
 PubSub.subscribe(EventNames.onInitRequest, onInitRequest);
 
-function onUserOptionsUpdate(userOptions: UserOptions) {
+function onUserOptionsUpdate(userOptions: UserOptions): void {
   state.userOptions = userOptions;
-  StorageService.updateToStorage(userOptions);
+  StorageService.updateToStorage<UserOptions>(userOptions);
 }
 
-function onInitRequest() {
+function onInitRequest(): void {
   PubSub.emit(EventNames.onInit, state.userOptions);
 
   console.log('got an init request');
