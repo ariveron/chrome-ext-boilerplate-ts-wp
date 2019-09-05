@@ -10,6 +10,8 @@
   consistent per event.
 */
 
-export enum EventsEnum {
-  optionsUpdated = 'options-updated'
+export enum EventNames {
+  onUserOptionsUpdate = 'userOptionsUpdate',
+  onInitRequest = 'initDataRequest',
+  onInit = 'initData'
 }

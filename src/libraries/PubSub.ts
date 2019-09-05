@@ -24,7 +24,6 @@ This psuedo-static class exposes the following methods:
 */
 
 import { appConfig } from '../config/app.config';
-import { IJSON } from '../libraries/CommonTypes';
 
 export class PubSub {
   private static callbacksByEvents: { [eventName: string]: callback[] } = {};
@@ -71,12 +70,12 @@ export class PubSub {
     }
   }
 
-  public static emit(eventName: string, data: IJSON): void {
+  public static emit(eventName: string, data: any = {}): void {
     PubSub.emitGlobal(eventName, data);
     PubSub.emitLocal(eventName, data);
   }
 
-  private static emitLocal(eventName: string, data: IJSON) {
+  private static emitLocal(eventName: string, data: any) {
     const eventCallbacks = PubSub.callbacksByEvents[eventName];
 
     if (!eventCallbacks) return;
@@ -86,7 +85,7 @@ export class PubSub {
     });
   }
 
-  private static emitGlobal(eventName: string, data: IJSON): void {
+  private static emitGlobal(eventName: string, data: any): void {
     if (!PubSub.isContentPage) {
       PubSub.sendMessageToContent(eventName, data);
     }
@@ -94,12 +93,12 @@ export class PubSub {
     PubSub.sendMessageToExtension(eventName, data);
   }
 
-  private static sendMessageToExtension(eventName: string, data: IJSON): void {
+  private static sendMessageToExtension(eventName: string, data: any): void {
     const message = new PubSubMessage(eventName, data);
     chrome.runtime.sendMessage(message);
   }
 
-  private static sendMessageToContent(eventName: string, data: IJSON): void {
+  private static sendMessageToContent(eventName: string, data: any): void {
     const message = new PubSubMessage(eventName, data);
 
     chrome.tabs.query({ url: appConfig.libraries.PubSub.urlPattern }, tabs => {
@@ -110,16 +109,16 @@ export class PubSub {
   }
 }
 
-type callback = (data: IJSON) => void;
+type callback = (data: any) => any;
 
 class PubSubMessage {
   public extensionName: string;
   public extensionId: string;
   public messageType: string;
   public eventName: string;
-  public data: IJSON;
+  public data: any;
 
-  constructor(eventName: string, data: IJSON) {
+  constructor(eventName: string, data: any) {
     this.extensionName = appConfig.general.extensionName;
     this.extensionId = appConfig.general.extensionId;
     this.messageType = appConfig.libraries.PubSub.portMessageType;

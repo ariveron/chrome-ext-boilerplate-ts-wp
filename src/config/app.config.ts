@@ -20,7 +20,14 @@ export const appConfig = {
     }
   },
   services: {},
-  models: {},
+  models: {
+    UserOptions: {
+      storageKey: 'UserOptions',
+      defaults: {
+        isUrlRewriterOn: true
+      }
+    }
+  },
   background: {},
   content: {},
   popup: {},
