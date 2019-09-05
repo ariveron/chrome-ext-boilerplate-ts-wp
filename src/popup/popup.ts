@@ -1,29 +1,20 @@
 import { PubSub } from '../libraries/PubSub';
 import { EventNames } from '../config/EventNames';
 import { UserOptions } from '../models/UserOptions';
-import { Popup } from '../models/Popup';
+import { StorageService } from '../services/StorageService';
+import { domConfig } from '../config/dom.config';
 
-const state = new Popup();
+const isUrlRewriterToggle = document.getElementById(
+  domConfig.popup.ids.isUrlRewriterOn
+) as HTMLInputElement;
 
-PubSub.subscribe(EventNames.onInit, onInit);
-PubSub.emit(EventNames.onInitRequest);
-PubSub.subscribe(EventNames.onUserOptionsUpdate, onUserOptionsUpdate);
+StorageService.get<UserOptions>(new UserOptions(), (options: UserOptions) => {
+  isUrlRewriterToggle.checked = options.isUrlRewriterOn;
+});
 
-function onInit(userOptions: UserOptions): void {
-  PubSub.unsubscribe(EventNames.onInit, onInit);
-  state.userOptions = userOptions;
-
-  console.log('on init complete');
-  console.log(state.userOptions);
-
-  // TODO
-}
-
-function onUserOptionsUpdate(userOptions: UserOptions): void {
-  state.userOptions = userOptions;
-
-  console.log('on user options update');
-  console.log(state.userOptions);
-
-  // TODO
-}
+isUrlRewriterToggle.addEventListener('click', (ev: MouseEvent) => {
+  StorageService.get<UserOptions>(new UserOptions(), (options: UserOptions) => {
+    options.isUrlRewriterOn = (ev.target as HTMLInputElement).checked;
+    PubSub.emit(EventNames.onUserOptionsUpdate, options);
+  });
+});

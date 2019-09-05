@@ -1,9 +1,66 @@
 <html>
   <head>
-    <title>SFX</title>
-    <link rel="stylesheet" href="popup.css">
+    <title>Inlightning</title>
+    <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
+    <div id="header">
+      <img src="media/icons/icon128.png" />
+    </div>
+    <table cellspacing="0" cellpadding="0" style="width: 100%;">
+      <tbody>
+        <tr class="feature">
+          <td>
+            <span>Case names on tabs</span>
+          </td>
+          <td>
+            <label class="switch">
+              <input type="checkbox" />
+              <span class="slider round"></span>
+            </label>
+          </td>
+        </tr>
+        <tr class="feature">
+          <td>
+            <span>Warning for unsaved text entries</span>
+          </td>
+          <td>
+            <label class="switch">
+              <input type="checkbox" />
+              <span class="slider round"></span>
+            </label>
+          </td>
+        </tr>
+        <tr class="feature">
+          <td>
+            <span>Omni-channel notification volume</span>
+          </td>
+          <td>
+            <span class="symbolV">-</span>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="100"
+              class="sliderV"
+              id="OmniVolume"
+            />
+            <span class="symbolV">+</span>
+          </td>
+        </tr>
+        <tr class="feature">
+          <td>
+            <span>URL Rewriter (example)</span>
+          </td>
+          <td>
+            <label class="switch">
+              <input type="checkbox" id="is-url-rewriter-on" />
+              <span class="slider round"></span>
+            </label>
+          </td>
+        </tr>
+      </tbody>
+    </table>
     <script src="popup.js"></script>
   </body>
 </html>

@@ -1,29 +1,14 @@
 import { PubSub } from '../libraries/PubSub';
 import { EventNames } from '../config/EventNames';
 import { UserOptions } from '../models/UserOptions';
-import { Options } from '../models/Options';
+import { StorageService } from '../services/StorageService';
 
-const state = new Options();
-
-PubSub.subscribe(EventNames.onInit, onInit);
-PubSub.emit(EventNames.onInitRequest);
 PubSub.subscribe(EventNames.onUserOptionsUpdate, onUserOptionsUpdate);
 
-function onInit(userOptions: UserOptions): void {
-  PubSub.unsubscribe(EventNames.onInit, onInit);
-  state.userOptions = userOptions;
-
-  console.log('on init complete');
-  console.log(state.userOptions);
-
-  // TODO
+function onUserOptionsUpdate(options: UserOptions): void {
+  console.log(options);
 }
 
-function onUserOptionsUpdate(userOptions: UserOptions): void {
-  state.userOptions = userOptions;
-
-  console.log('on user options update');
-  console.log(state.userOptions);
-
-  // TODO
-}
+StorageService.get<UserOptions>(new UserOptions(), (options: UserOptions) => {
+  console.log(options);
+});

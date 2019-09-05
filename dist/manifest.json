@@ -1,7 +1,12 @@
 {
-  "name": "SFX",
-  "version": "0.0",
-  "description": "SFX",
+  "name": "Inlightning",
+  "version": "0.0.0",
+  "description": "Salesforce Extension",
+  "icons": {
+    "16": "/media/icons/icon16.png",
+    "48": "/media/icons/icon48.png",
+    "128": "/media/icons/icon128.png"
+  },
   "permissions": ["tabs", "storage"],
   "manifest_version": 2,
   "background": {

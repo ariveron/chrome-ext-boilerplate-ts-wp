@@ -1,10 +1,15 @@
 import { IStorable } from './IStorable';
-import { UserOptions } from '../models/UserOptions';
 
 export class StorageService {
   private constructor() {}
 
-  public static updateFromStorage<T extends IStorable>(
+  public static sync<T extends IStorable>(model: T): void {
+    StorageService.get<T>(model, (updatedModel: T) => {
+      StorageService.set<T>(updatedModel);
+    });
+  }
+
+  public static get<T extends IStorable>(
     model: T,
     callback: callback<T>
   ): void {
@@ -20,14 +25,12 @@ export class StorageService {
         }
       }
 
-      StorageService.updateToStorage(updatedModel);
-
       callback(updatedModel);
     });
   }
 
-  public static updateToStorage<T extends IStorable>(model: T): void {
-    chrome.storage.local.set(model);
+  public static set<T extends IStorable>(model: T): void {
+    chrome.storage.local.set({ [model.__key__]: model });
   }
 }
 

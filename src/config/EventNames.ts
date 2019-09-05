@@ -11,7 +11,5 @@
 */
 
 export enum EventNames {
-  onUserOptionsUpdate = 'userOptionsUpdate',
-  onInitRequest = 'initDataRequest',
-  onInit = 'initData'
+  onUserOptionsUpdate = 'onUserOptionsUpdate'
 }

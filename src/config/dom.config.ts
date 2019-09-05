@@ -16,7 +16,9 @@ export const domConfig = {
   },
   popup: {
     classes: {},
-    ids: {}
+    ids: {
+      isUrlRewriterOn: 'is-url-rewriter-on'
+    }
   },
   options: {
     classes: {},
